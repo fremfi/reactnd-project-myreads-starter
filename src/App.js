@@ -10,7 +10,7 @@ class BooksApp extends React.Component {
     books:[]
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.fetchBooks();
   }
   
@@ -20,19 +20,10 @@ class BooksApp extends React.Component {
     }));
   }
 
-  onShelfUpdate(book, value) {
-    const { books } = this.state;
-    let foundIndex = books.findIndex(x => x.id === book.id);
-    if (foundIndex > 0) { // If book is already on the shelf
-      books[foundIndex].shelf = value;
-    } else {
-      book.shelf = value;
-      books.push(book);
-    }
-    this.setState({
-      books: books
-    });
-    BooksAPI.update(book, value);
+  onShelfUpdate(book, value){
+    const newList = this.state.books.filter(bookOnState => bookOnState.id !== book.id);
+    book.shelf = value;
+    BooksAPI.update(book, value).then(() => this.setState({ books: [...newList, book] }));
   }
 
   render() {

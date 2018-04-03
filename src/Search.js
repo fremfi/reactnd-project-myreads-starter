@@ -55,7 +55,8 @@ class Search extends Component {
               </div>
             </div>
             <div className="search-books-results">
-            <BooksGrid books={books} onShelfUpdate={onShelfUpdate} />
+                {books.length > 0 ? <BooksGrid books={books} onShelfUpdate={onShelfUpdate} /> : 
+                query ? <p>{`No results for ${query}`}</p> : null}
             </div>
           </div>
         );
